@@ -31,6 +31,12 @@ type 'a node =
      O(1) appends most of the time. When it's full, it
      gets added to the first available space under the
      root.
+
+     TODO: It might be better to make tail be `'a array option`;
+     we don't get extra indirections since `None` is just null
+     internally, and we get the benefit of 0 allocations for
+     empty vectors.
+
    - `depth`, `size`:
      Keeping both the depth and the size is needed so we
      don't needlessly traverse the whole tree for simple
