@@ -1,0 +1,4 @@
+(executable
+ (public_name pvec)
+ (name main)
+ (libraries pvec core_bench hector patricia-tree))
