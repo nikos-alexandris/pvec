@@ -9,7 +9,15 @@ end
 (* A node is either a leaf node containing `branching` values or
    an internal node containing up to `branching` children. We allocate
    children nodes lazily, and since `node` is a boxed type, `node option`
-   should represent `None` as a null so no further indirection is happening. *)
+   should represent `None` as a null so no further indirection is happening.
+   
+   Theoretically, we don't need to distinguish between node types. Since we
+   store the depth in the tree, we know in the recursive algorithms that when
+   the depth is 0 we are looking at a leaf, and when the depth is > 0 we are
+   looking at an internal node, and we can cast accordingly. This version
+   however is better for prototyping, and the above can be implemented as
+   an optimisation later.
+   *)
 type 'a node =
   | Leaf of 'a array
   | Internal of 'a node option array
