@@ -8,8 +8,9 @@ end
 
 (* A node is either a leaf node containing `branching` values or
    an internal node containing up to `branching` children. We allocate
-   children nodes lazily, and since `node` is a boxed type, `node option`
-   should represent `None` as a null so no further indirection is happening.
+   children nodes lazily, however it might be better space-wise to
+   track the size of each node instead of every value of the array being
+   an option.
    
    Theoretically, we don't need to distinguish between node types. Since we
    store the depth in the tree, we know in the recursive algorithms that when
@@ -32,10 +33,8 @@ type 'a node =
      gets added to the first available space under the
      root.
 
-     TODO: It might be better to make tail be `'a array option`;
-     we don't get extra indirections since `None` is just null
-     internally, and we get the benefit of 0 allocations for
-     empty vectors.
+     TODO: It might be better to make tail be `'a array option`
+           so empty vectors can be zero-allocation.
 
    - `depth`, `size`:
      Keeping both the depth and the size is needed so we
